@@ -152,7 +152,13 @@ async function main() {
   let portValue = null;
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "-p" || args[i] === "--port") {
-      portValue = args[i + 1];
+      if (i + 1 < args.length) {
+        portValue = args[i + 1];
+      } else {
+        console.error(`Error: ${args[i]} flag requires a port number`);
+        console.error("Usage: npx vibe-kanban --port 8080");
+        process.exit(1);
+      }
       break;
     } else if (args[i].startsWith("--port=")) {
       portValue = args[i].split("=")[1];
@@ -161,7 +167,12 @@ async function main() {
   }
 
   // Set PORT environment variable if port flag is provided
-  if (portValue) {
+  if (portValue !== null) {
+    if (!portValue || portValue.trim() === "") {
+      console.error("Error: Port value cannot be empty");
+      console.error("Usage: npx vibe-kanban --port 8080");
+      process.exit(1);
+    }
     const port = parseInt(portValue, 10);
     if (isNaN(port) || port < 1 || port > 65535) {
       console.error(`Invalid port number: ${portValue}`);
