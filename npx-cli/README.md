@@ -12,6 +12,27 @@ npx vibe-kanban
 
 This will launch the application locally and open it in your browser automatically.
 
+### CLI Options
+
+```bash
+npx vibe-kanban [options]
+```
+
+**Options:**
+- `-p, --port <port>` - Specify the port to run on (default: random available port)
+- `--mcp` - Run in MCP server mode
+- `review <pr-url>` - Review a GitHub pull request
+
+**Examples:**
+```bash
+# Run on a specific port
+npx vibe-kanban --port 8080
+npx vibe-kanban -p 8080
+
+# Run with environment variable (alternative)
+PORT=8080 npx vibe-kanban
+```
+
 ## What is Vibe Kanban?
 
 Vibe Kanban is a modern project management tool designed specifically for developers. It helps you organize your coding projects with kanban-style task management while providing powerful integrations with git repositories and AI coding agents.

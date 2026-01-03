@@ -148,6 +148,29 @@ async function main() {
   const isMcpMode = args.includes("--mcp");
   const isReviewMode = args[0] === "review";
 
+  // Parse port flag (-p or --port)
+  let portValue = null;
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === "-p" || args[i] === "--port") {
+      portValue = args[i + 1];
+      break;
+    } else if (args[i].startsWith("--port=")) {
+      portValue = args[i].split("=")[1];
+      break;
+    }
+  }
+
+  // Set PORT environment variable if port flag is provided
+  if (portValue) {
+    const port = parseInt(portValue, 10);
+    if (isNaN(port) || port < 1 || port > 65535) {
+      console.error(`Invalid port number: ${portValue}`);
+      console.error("Port must be a number between 1 and 65535");
+      process.exit(1);
+    }
+    process.env.PORT = port.toString();
+  }
+
   // Non-blocking update check (skip in MCP mode, local dev mode, and when R2 URL not configured)
   const hasValidR2Url = !R2_BASE_URL.startsWith("__");
   if (!isMcpMode && !LOCAL_DEV_MODE && hasValidR2Url) {
