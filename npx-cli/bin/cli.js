@@ -152,7 +152,7 @@ async function main() {
   let portValue = null;
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "-p" || args[i] === "--port") {
-      if (i + 1 < args.length) {
+      if (i + 1 < args.length && !args[i + 1].startsWith("-")) {
         portValue = args[i + 1];
       } else {
         console.error(`Error: ${args[i]} flag requires a port number`);
